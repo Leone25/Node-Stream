@@ -60,7 +60,7 @@ app.get('/movie/:id', (req, res) => {
 		
 		Object.keys(movies[id].subtitles).forEach(lang => {
 			
-			tmp += `<track label="${lang}" kind="subtitles" srclang="${lang}" src="${movies[id].subtitles[lang]}">`;
+			tmp += `<track label="${lang}" kind="subtitles" srclang="${lang}" src="/subtitles/${id}/${lang}.vtt">`;
 			
 		});
 		
@@ -110,6 +110,16 @@ app.get('/stream/:id', (req, res) => {
 		res.writeHead(200, head);
 		fs.createReadStream(movies[id].path).pipe(res);
 	}
+});
+
+app.get('/subtitles/:id/:lang.vtt', (req, res) => {
+	
+	var id = req.params.id;
+	var lang = req.params.lang;
+	
+	
+	fs.createReadStream(movies[id].subtitles[lang]).pipe(res);
+	
 });
 
 
