@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	position: relative;
+}
+
+div {
+	transition-duration: 0.5s;
+}
+
+.movie-list {
+	width: 100%;
+	padding: 20px 0;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: stretch;
+}
+
+.movie-thumbnail {
+	width: 200px;
+	height: 200px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	flex-grow: 1;
+	opacity: 0.5;
+}
+
+.movie-thumbnail:hover {
+	opacity: 0.8;
+}
+
+#videoPlayer {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+}
