@@ -1,11 +1,11 @@
 {
 	"1":{
-		"name":"Test 1",
-		"thumbnail":"https://www.turbocad.com/img/cms/CivilDesign/image059.png",
+		"name":"Movie 1",
+		"thumbnail":"this is the path of the thumbnail, could be either in ./public/ or external",
 		"description":"Perhaps",
-		"path":"./film/sample.mp4",
+		"path":"yet any path where the movie is stored",
 		"subtitles":{
-			"en":"./film/subtitles/sample.srt"
+			"en":"again any path the subtitles are stored"
 		}
 	}
 }
