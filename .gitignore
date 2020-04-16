@@ -1,5 +1,4 @@
 # Files you shouldn't share
-*.*.example
 config.json
 movies.json
 
