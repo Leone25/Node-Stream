@@ -1,18 +1,18 @@
 # Node-Stream
-A super simple, super basic node js based self hosted streaming service
+A super simple, super basic node js based self hosted streaming service.
 
 
 ## Installation
 1. `npm install`
-2. Removie the `.example` from the `config.json` and edit if wanted but shouldn't be necessary
-3. Removie the `.example` from the `movies.json` and edit inserting all the movies you wnat avvailable
+2. Remove the `.example` from the `config.json` and edit if wanted but shouldn't be necessary
+3. Remove the `.example` from the `movies.json` and edit it by inserting all the movies you want available
 4. `node index.js`
 5. open web browser at `localhost:8080`
 
 ## Plans
  - Password login
- - Custom player controlls
- - Subtitle support (yes, it's there but the files are hosted correctly yet)
+ - Custom player controls
+ - Subtitle support (yes, it's there but the files aren't hosted correctly yet)
  - Upload/modify page
  - Video conversion (currently all videos must be mp4)
  
