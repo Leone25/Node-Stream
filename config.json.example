@@ -1,0 +1,8 @@
+{
+	"port":8080,
+	"mainPage":"index.html",
+	"moviesList":"movies.json",
+	"movieDefault":"public/default.png",
+	"moviePage":"movie.html",
+	"404Page":"404.html"
+}

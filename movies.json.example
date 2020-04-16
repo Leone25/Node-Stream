@@ -1,0 +1,11 @@
+{
+	"1":{
+		"name":"Test 1",
+		"thumbnail":"https://www.turbocad.com/img/cms/CivilDesign/image059.png",
+		"description":"Perhaps",
+		"path":"./film/sample.mp4",
+		"subtitles":{
+			"en":"./film/subtitles/sample.srt"
+		}
+	}
+}
