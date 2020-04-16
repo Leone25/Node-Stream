@@ -13,6 +13,8 @@ A super simple, super basic node js based self hosted streaming service
  - Password login
  - Custom player controlls
  - Subtitle support (yes, it's there but the files are hosted correctly yet)
+ - Upload/modify page
+ - Video conversion (currently all videos must be mp4)
  
 ## Problems/feedback?
 Pease open an issue on github
