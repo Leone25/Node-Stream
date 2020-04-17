@@ -26,7 +26,11 @@ app.get('/', (req, res) => {
 		//console.log(Object.keys(movies));
 		
 		Object.keys(movies).forEach(id => {
-			tmp += `<div class="movie-thumbnail" style="background-image: url(' ${movies[id].thumbnail || config.movieDefault } ');" onclick="window.location.href = 'movie/${ id }';"></div>`;//${movies[id].name}
+			if (movies[id].type != "series") {
+				tmp += `<div class="movie-thumbnail" style="background-image: url(' ${movies[id].thumbnail || config.movieDefault } ');" onclick="window.location.href = '/movie/${ id }';"></div>`;//${movies[id].name}
+			} else {
+				tmp += `<div class="movie-thumbnail series-lable" style="background-image: url(' ${movies[id].thumbnail || config.movieDefault } ');" onclick="window.location.href = '/series/${ id }';"></div>`;
+			}
 		});
 		
 		tmp += "</div>";
@@ -42,7 +46,67 @@ app.get('/', (req, res) => {
 	res.send(result);
 });
 
-app.get('/movie/:id', (req, res) => {
+app.get('/series/:id', (req, res, next) => {
+	
+	var id = req.params.id;
+	
+	var tmp = `<div class="movie-list">`;
+	
+	if (!movies[id]) {
+		
+		next();
+		
+	} else {		
+	
+		var result = fs.readFileSync(config.mainPage).toString();
+		
+		
+		for (i = 0; i < movies[id].episodes.length; i++) {
+			
+			tmp += `<div class="movie-thumbnail" style="background-image: url(' ${movies[id].episodes[i].thumbnail || config.movieDefault } ');" onclick="window.location.href = '/movie/${ id }/${ i }';"></div>`;
+			
+		}
+		
+		tmp += "</div>";
+		
+		result = substituteString(result, '${list}', tmp);
+		
+	}
+	
+	res.send(result);
+});
+
+app.get('/movie/:id/:ep', (req, res, next) => {
+	
+	var id = req.params.id;
+	var ep = req.params.ep;
+	
+	var tmp = "";
+	
+	if (!movies[id] || movies[id].episodes.length < ep || ep < 0) {
+		
+		next();
+		
+	} else {		
+	
+		var result = fs.readFileSync(config.moviePage).toString();
+		
+		result = substituteString(result, '${id}', id+"/"+"ep");
+		
+		Object.keys(movies[id].episodes[ep].subtitles).forEach(lang => {
+			
+			tmp += `<track label="${lang}" kind="subtitles" srclang="${lang}" src="/subtitles/${id}/${lang}.vtt">`;
+			
+		});
+		
+		result = substituteString(result, '${subtitles}', tmp);
+		
+		res.send(result);
+		
+	}
+});
+
+app.get('/movie/:id', (req, res, next) => {
 	
 	var id = req.params.id;
 	
@@ -50,9 +114,13 @@ app.get('/movie/:id', (req, res) => {
 	
 	if (!movies[id]) {
 		
-		var result = fs.readFileSync(config["404Page"]).toString();
+		next();
 		
-	} else {		
+	} else if (movies[id].type == "series") {
+		
+		res.redirect('/series/' + id);
+		
+	}else {		
 	
 		var result = fs.readFileSync(config.moviePage).toString();
 		
@@ -66,9 +134,9 @@ app.get('/movie/:id', (req, res) => {
 		
 		result = substituteString(result, '${subtitles}', tmp);
 		
+		res.send(result);
+		
 	}
-	
-	res.send(result);
 });
 
 app.get('/stream/:id', (req, res) => {
@@ -123,7 +191,10 @@ app.get('/subtitles/:id/:lang.vtt', (req, res) => {
 });
 
 
-
+app.use((req, res) => {
+	
+	fs.createReadStream(config["404Page"]).pipe(res);
+});
 
 
 app.listen(port, () => console.log(`Running on port ${port}`));
