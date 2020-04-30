@@ -18,7 +18,7 @@ A super simple, super basic node js based self hosted streaming service.
  - Add series support
  
 ## Problems/feedback?
-Pease open an issue on github
+Please open an issue on github
 
 ## Disclamer
 I'm not responsible for any illegal activity done with this code, as it's not its own original purpose. Do everything at your own risk.
