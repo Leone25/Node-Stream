@@ -11,8 +11,62 @@ body {
 	position: relative;
 }
 
-div {
+a {
+	color: white;
+}
+
+a:hover {
+	color: gray;
+}
+
+* {
 	transition-duration: 0.5s;
+}
+
+input {
+	border-radius: 20px;
+	padding: 10px 20px;
+	border: none;
+	margin-bottom: 5px;
+	background: white;
+}
+
+input:focus {
+	background: #c9dbe0;
+}
+
+.button {
+	border-radius: 20px;
+	padding: 10px;
+	border: none;
+	text-align: center;
+	background: gray;
+}
+
+.button:hover {
+	background: #00ace0;
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	width: calc(100% - 50px);
+	max-width: 400px;
+	position: fixed;
+	left: 0;
+	right: 0;
+	margin: auto;
+	justify-content: center;
+	align-content: center;
+	height: 100%;
+}
+
+.login-form #message {
+	text-align:center;
+}
+
+.space {
+	height: 20px;
 }
 
 .movie-list {
@@ -56,4 +110,32 @@ div {
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
+}
+
+.left-menu {
+	position: fixed;
+	width: 300px;
+	height: 100%;
+	overflow-x: auto;
+	border-right: solid white 1px;
+	top: 0;
+}
+
+.left-menu-element {
+	margin: 10px;
+	cursor: pointer;
+}
+
+.left-menu-element:hover {
+	color: grey;
+	margin-left: 20px;
+}
+
+.left-menu-element.active {
+	margin-left: 20px;
+}
+
+.settings {
+	margin: 20px;
+	margin-left: 321px;
 }

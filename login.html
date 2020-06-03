@@ -1,0 +1,28 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Movies</title>
+<meta name="description" content="Movies">
+<meta name="author" content="Enrico">
+<link rel="stylesheet" href="/public/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="login-form">
+
+<input type="username" placeholder="Username" id="username">
+<input type="password" placeholder="Password" id="password">
+<div class="space"></div>
+<div class="button" onclick="login(getElementById('username').value,getElementById('password').value)"> Login </div>
+<div class="space"></div>
+<div id="message"> ${message} </div>
+
+</div>
+
+
+<script src="/public/script.js"></script>
+</body>
+</html>

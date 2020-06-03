@@ -15,7 +15,6 @@ A super simple, super basic node js based self hosted streaming service.
  - Subtitle support (yes, it's there but the files aren't hosted correctly yet)
  - Upload/modify page
  - Video conversion (currently all videos must be mp4)
- - Add series support
  
 ## Problems/feedback?
 Pease open an issue on github
