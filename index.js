@@ -11,6 +11,8 @@ CREATE TABLE `users` (
   `info` text NOT NULL
 ) COLLATE 'utf8mb4_unicode_ci';
 
+INSERT INTO users SET id='1a5a32d8cedc1732db4a', username='admin', password='$2b$10$vuHHECecwhUPbR6YzIf.aO/6LB0Z0C45pQnXhAi6qq6D7228Stj72', 2faCode='', permissionLevel='0', age='99', info='foo', cookie=''
+
 */
 
 /* mysql config movies
@@ -25,6 +27,8 @@ CREATE TABLE `movies` (
   `ageRequirement` text NOT NULL,
   `timestamp` text NOT NULL
 ) COLLATE 'utf8mb4_unicode_ci';
+
+INSERT INTO movies SET id='1', title='Aladin', type='movie', filePath='upload/Aladin.mp4', subtitles='', thumbnail='https://www.metrotix.com/assets/img/AladdinLamp_thumbnail_520x462-8a1a2c2672.jpg', description='woop', ageRequirement='0', timestamp='0000'
 
 */
 
@@ -315,8 +319,70 @@ app.get('/stream/:id/:ep', (req, res) => {
 	
 	db.query( `SELECT * FROM ${config.moviesTable} WHERE ageRequirement <= ${req.user.age || 0} AND id = '${id}' AND type='${type}'`, function (error, movies, fields) {
 		
-		var path = JSON.parse(movies.filePath);
-		if (Array.isArray(path)) path = path[ep];
+		try {
+			var path = JSON.parse(movies[0].filePath);
+			path = path[ep];
+		} catch (e) {
+			var path = movies[0].filePath;
+		}
+		
+		const stat = fs.statSync(path);
+		const fileSize = stat.size;
+		const range = req.headers.range;
+
+		if (range) {
+			const parts = range.replace(/bytes=/, "").split("-");
+			const start = parseInt(parts[0], 10);
+			const end = parts[1]
+				? parseInt(parts[1], 10)
+				: fileSize-1;
+
+			if(start >= fileSize) {
+				res.status(416).send('Requested range not satisfiable\n'+start+' >= '+fileSize);
+				return;
+			}
+
+			const chunksize = (end-start)+1;
+			const file = fs.createReadStream(path, {start, end});
+			const head = {
+				'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+				'Accept-Ranges': 'bytes',
+				'Content-Length': chunksize,
+				'Content-Type': 'video/mp4',
+			};
+
+			res.writeHead(206, head);
+			file.pipe(res);
+		} else {
+			const head = {
+				'Content-Length': fileSize,
+				'Content-Type': 'video/mp4',
+			};
+			res.writeHead(200, head);
+			fs.createReadStream(path).pipe(res);
+		}
+	});
+});
+
+app.get('/stream/:id', (req, res) => {
+	
+	var id = req.params.id;
+	var ep = req.params.ep;
+	var type = "series";
+	
+	if (ep == undefined) {
+		type = "movie";
+	}
+	
+	db.query( `SELECT * FROM ${config.moviesTable} WHERE ageRequirement <= ${req.user.age || 0} AND id = '${id}' AND type='${type}'`, function (error, movies, fields) {
+		
+		try {
+			var path = JSON.parse(movies[0].filePath);
+			path = path[ep];
+		} catch (e) {
+			var path = movies[0].filePath;
+		}
+		
 		
 		const stat = fs.statSync(path);
 		const fileSize = stat.size;
